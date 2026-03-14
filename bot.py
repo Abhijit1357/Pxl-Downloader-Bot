@@ -1,18 +1,33 @@
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
-from config import BOT_TOKEN  # <-- config se token le rahe hain
+from config import BOT_TOKEN
 
 # /start command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        "✅ Bot Online\n\nCommands:\n/start\n/help"
-    )
+    start_text = """
+🎬 *Welcome to Pxl Downloader Bot!* 🎬
+
+I can help you download your favourite Anime (and soon Movies!)  
+directly to your Telegram channel.  
+
+⚡ *Commands:*
+• /start - Show this welcome message
+• /help  - Show command list
+• /anime <link> - Download Anime episode (multi-quality, MKV)
+
+💡 _Tip: Send me the link from RareAnimes and relax!_
+"""
+    await update.message.reply_markdown(start_text)
 
 # /help command
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        "⚡ Commands:\n/start\n/help"
-    )
+    help_text = """
+⚡ *Available Commands:*
+• /start - Welcome message
+• /help  - This help message
+• /anime <link> - Download Anime in MKV format
+"""
+    await update.message.reply_markdown(help_text)
 
 # Build app
 app = ApplicationBuilder().token(BOT_TOKEN).build()
