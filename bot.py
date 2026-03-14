@@ -1,27 +1,17 @@
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
-from config import BOT_TOKEN, ADMIN_ID
 
+BOT_TOKEN = "PASTE_YOUR_BOT_TOKEN"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
-    if update.effective_user.id != ADMIN_ID:
-        return
-
     await update.message.reply_text(
         "✅ Bot Online\n\nCommands:\n/start\n/help"
     )
 
-
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
-    if update.effective_user.id != ADMIN_ID:
-        return
-
     await update.message.reply_text(
-        "⚡ Admin Commands\n\n/start\n/help"
+        "⚡ Commands:\n/start\n/help"
     )
-
 
 app = ApplicationBuilder().token(BOT_TOKEN).build()
 
