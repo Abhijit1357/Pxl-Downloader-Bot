@@ -1,19 +1,33 @@
 from telegram import Update
-from telegram.ext import Updater, CommandHandler
-from config import API_TOKEN
-from handlers.start_handler import start
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from config import BOT_TOKEN, ADMIN_ID
 
-def main():
-    # Initialize the Updater and Dispatcher
-    updater = Updater(API_TOKEN)
-    dispatcher = updater.dispatcher
 
-    # Register the start command handler
-    dispatcher.add_handler(CommandHandler("start", start))
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
-    # Start the bot
-    updater.start_polling()
-    updater.idle()
+    if update.effective_user.id != ADMIN_ID:
+        return
 
-if __name__ == '__main__':
-    main()
+    await update.message.reply_text(
+        "✅ Bot Online\n\nCommands:\n/start\n/help"
+    )
+
+
+async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    await update.message.reply_text(
+        "⚡ Admin Commands\n\n/start\n/help"
+    )
+
+
+app = ApplicationBuilder().token(BOT_TOKEN).build()
+
+app.add_handler(CommandHandler("start", start))
+app.add_handler(CommandHandler("help", help))
+
+print("Bot Running...")
+
+app.run_polling()
